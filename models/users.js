@@ -12,9 +12,13 @@ const userSchema = mongoose.Schema({
   lastName: String,
   tels:[telSchema],
   avatar:String,
-  rdv_id:{type: mongoose.Schema.Types.ObjectId, ref: 'meetings'},
   role_id:{type: mongoose.Schema.Types.ObjectId, ref: 'roles'},
   googleId:String,
+  created:{type:Date,default:new Date()},
+  lastModified:{type:Date,default:new Date()},
+  author:{type: mongoose.Schema.Types.ObjectId, ref: 'users'},
+  lastModifier:{type: mongoose.Schema.Types.ObjectId, ref: 'users'}, 
+
 });
 const User = mongoose.model("users", userSchema);
 module.exports = User;
