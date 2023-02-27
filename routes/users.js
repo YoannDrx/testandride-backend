@@ -14,14 +14,14 @@ const bcrypt = require('bcrypt');
       res.json({ result: false, error: 'Email ou mot de passe manquants' });
       return;
     }
-    User.findOne({ username: req.body.username }).then(data => {
-      // CONDITION username n'existe pas ENCORE
+    User.findOne({ email: req.body.email }).then(data => {
+      // CONDITION email n'existe pas ENCORE
       if (data === null) {
         //alors création du newUser
         const hash = bcrypt.hashSync(req.body.password, 10);
         
         const newUser = new User({
-          email: req.body.username,
+          email: req.body.email,
           password: hash,
           token: uid2(32),
         });
@@ -31,7 +31,7 @@ const bcrypt = require('bcrypt');
         });
       } else {
         // User already exists in database
-        res.json({ result: false, error: 'l\'utilisateur existe déjà' });
+        res.json({ result: false, error: 'l\'email utilisateur existe déjà dans la base' });
       }
     });
     
@@ -40,16 +40,16 @@ const bcrypt = require('bcrypt');
 /* post signin*/
   router.post('/signin', (req, res) => {
     // CONDITION CheckBody ----------------------------------------------
-  if (!checkBody(req.body, ['username', 'password'])) {
-    res.json({ result: false, error: 'Missing or empty fields' });
+  if (!checkBody(req.body, ['email', 'password'])) {
+    res.json({ result: false, error: 'Email ou mot de passe manquants' });
     return;
   }
-  User.findOne({ username: req.body.username }).then(data => {
+  User.findOne({ email: req.body.email }).then(data => {
     // CONDITION username existe BIEN
     if (data && bcrypt.compareSync(req.body.password, data.password)) {
-      res.json({ result: true, token: data.token,firstname:data.firstname });
+      res.json({ result: true, token: data.token,firstName:data.firstName });
     } else {
-      res.json({ result: false, error: 'User not found or wrong password' });
+      res.json({ result: false, error: 'Email introuvable ou mot de passe erroné' });
     }
   });
   })
