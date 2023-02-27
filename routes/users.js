@@ -52,6 +52,33 @@ const bcrypt = require('bcrypt');
       res.json({ result: false, error: 'User not found or wrong password' });
     }
   });
-  })
+  });
+
+  // post reset password
+
+  router.post('/reset-password', async (req, res) => {
+    try {
+      const { email, token, password } = req.body;
+  
+      const user = await User.findOne({ email, token });
+  
+      if (!user) {
+        return res.status(400).send('Jeton de réinitialisation invalide ou expiré.');
+      }
+  
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+  
+      user.password = hashedPassword;
+      user.token = null;
+  
+      await user.save();
+  
+      res.status(200).send('Mot de passe réinitialisé avec succès !');
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Une erreur s\'est produite lors de la réinitialisation du mot de passe.');
+    }
+  });
 
 module.exports = router;
