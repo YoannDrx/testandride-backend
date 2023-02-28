@@ -26,8 +26,8 @@ const bcrypt = require('bcrypt');
           lastName : req.body.lastName,
           firstName : req.body.firstName,
           tels : [{  
-          title : req.body.tels.title,
-          num : req.body.tels.num}],
+          title : req.body.tels,
+          num : req.body.tels}],
           token: uid2(32),
         });
         // Push dans la BDD
