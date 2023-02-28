@@ -23,6 +23,11 @@ const bcrypt = require('bcrypt');
         const newUser = new User({
           email: req.body.email,
           password: hash,
+          lastName : req.body.lastName,
+          firstName : req.body.firstName,
+          tels : [{  
+          title : req.body.tels.title,
+          num : req.body.tels.num}],
           token: uid2(32),
         });
         // Push dans la BDD
