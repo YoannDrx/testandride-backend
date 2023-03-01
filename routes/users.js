@@ -7,6 +7,7 @@ const uid2 = require('uid2');
 const bcrypt = require('bcrypt');
 
 
+
 /* post /signup */
   router.post('/signup', (req, res) => {
     // CONDITION CheckBody ----------------------------------------------
@@ -52,86 +53,52 @@ const bcrypt = require('bcrypt');
   User.findOne({ email: req.body.email }).then(data => {
     // CONDITION username existe BIEN
     if (data && bcrypt.compareSync(req.body.password, data.password)) {
-      res.json({ result: true, token: data.token,firstName:data.firstName });
+      res.json({ result: true, token: data.token });
     } else {
       res.json({ result: false, error: 'Email introuvable ou mot de passe erroné' });
     }
   });
   })
 
-  // route post pour reset le password
+  // route post pour reset le password sur la page profil utilisateur
 
-  router.post('/reset-password', async (req, res) => {
-    try {
-      const { email, token, password } = req.body;
-      const user = await User.findOne({ email, token });
+  // router.post('/new-password', async (req, res) => {
+  //   try {
+  //     const { token, password } = req.body;
+  //     const user = await User.updateOne({ token:token} , {password : hashedPassword});
       
-      if (!user) {
-        return res.status(400).send('Jeton de réinitialisation invalide ou expiré.');
-      }
+  //     if (!user) {
+  //       return res.json({result:false,error:'Impossible de réinitialiser le mot de passe.'});
+  //     }
   
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
+  //     const hashedPassword = await bcrypt.hash(password, 10);
   
-      user.password = hashedPassword;
-      user.token = null;
-  
-      await user.save();
-  
-      res.status(200).send('Mot de passe réinitialisé avec succès !');
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Une erreur s\'est produite lors de la réinitialisation du mot de passe.');
-    }
-  });
+  //     user.password = hashedPassword;
+      
+  //     // update method
+  //     await user.updateOne({token : token}, {password : hashedPassword});
 
-  // fonction pour générer un mdp aléatoirement
-  function generateRandomPassword() {
-    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const longueurDuMdp = 8;
-    let newMdp = '';
+  //     res.json({result:true, message:'Mot de passe réinitialisé avec succès !'});
+  //   } catch (error) {
+  //     console.error(error);
+  //     res.json('Une erreur s\'est produite lors de la réinitialisation du mot de passe.');
+  //   }
+  // });
 
-    for(let i = 0; i < longueurDuMdp; i++){
-      newMdp += caracteres.charAt(Math.floor(Math.random()*caracteres.length));
+router.post('/switch-password', async (req,res) => {
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
+  try {
+    const user = User.findOne({token : req.body.token});
+    if(user){
+      console.log(user)
+      await User.updateOne({token : req.body.token} , {password : hashedPassword})
+      res.json({result : true , message: "Mot de passe changé !"})
+    }else{
+      res.json({result: false , error: "Impossible de changer de mot de passe."})
     }
-    return newMdp;
+    }catch (error){
+    res.json("Une erreur s\'est produite lors du changement de mot de passe.")
   }
-
-  // route post permettant d'envoyer un nouveau mot de passe à l'email de l'utilisateur
-  router.post('/new-password', (req,res) => {
-    //const email = req.body.email; // récupere l'email utilisateur
-    const newPassword = generateRandomPassword(); // genere un mdp aléatoire
-
-    // configurer l'envoie de l'email
-    const transporteur = nodemailer.createTransport({
-      host : 'smtp-mail.outlook.com',
-      secureConnection: false,
-      port: 587,
-      tls: {
-        ciphers : "SSLv3"
-      },
-      auth : {
-        user : '', // mettre adresse mail de test&ride
-        pass : '',// mettre le mdp de test&ride
-      }
-    });
-    // contenu de l'email
-    const mailOptions = {
-      from : '',// email de test&ride
-      to : 'yihaf35519@wifame.com',// email du receveur
-      subject : 'Votre nouveau mot de passe',
-      text : `Votre nouveau mot de passe est le suivant : ${newPassword}`
-    };
-    //envoyer l'email
-    transporteur.sendMail(mailOptions, (error, info) => {
-      if(error){
-        console.log(error);
-        res.status(500).send('Erreur lors de l\'envoie de l\'email')
-      }else{
-        console.log('email envoyé :' + info.response);
-        res.status(200).send('Un nouveau mot de passe a été envoyé à votre adresse email.');
-      }
-    });
-  });
+})
 
 module.exports = router;
