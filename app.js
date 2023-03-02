@@ -7,6 +7,11 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var rolesRouter = require('./routes/roles');
+var brandsRouter = require('./routes/brands');
+var productsRouter = require('./routes/products');
+var customersRouter = require('./routes/customers');
+var mettingsRouter = require('./routes/mettings');
 
 var app = express();
 
@@ -20,5 +25,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/roles', rolesRouter);
+app.use('/brands', brandsRouter);
+app.use('/products', productsRouter);
+app.use('/customers', customersRouter);
+app.use('/mettings', mettingsRouter);
 
 module.exports = app;
