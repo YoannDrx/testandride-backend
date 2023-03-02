@@ -38,8 +38,6 @@ router.post("/create", async (req, res) => {
             firstName: req.body.firstName,
             tels: req.body.tels,
             token: uid2(32),
-            created: new Date(), // valeur par défaut à supprimer
-            lastModified: new Date(), // valeur par défaut à supprimer
         });
         await user.save();
         res.json({ result: true, message: `Utilisateur créé` });

@@ -34,8 +34,6 @@ router.post("/create", async (req, res) => {
             isAdmin: req.body.isAdmin,
             isTesteur: req.body.isTesteur,
             isSupport: req.body.isSupport,
-            created: new Date(),
-            lastModified: new Date(),
         });
         await role.save();
         res.json({ result: true, message: `Rôle ${role.name} créé` });

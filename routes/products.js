@@ -34,10 +34,7 @@ router.post("/create", async (req, res) => {
             descriptionText: req.body.descriptionText,
             descriptionFile: req.body.descriptionFile,
             picture: req.body.picture,
-            
             price: req.body.price,
-            created: new Date(),
-            lastModified: new Date(),
         });
         await product.save();
         res.json({ result: true, message: `Produit ${product.name} créé` });
@@ -56,7 +53,6 @@ router.put("/update/:id", async (req, res) => {
         product.descriptionFile = req.body.descriptionFile;
         product.picture = req.body.picture;
         product.prices = req.body.prices;
-        product.lastModified = new Date();
         product.author = req.body.author;
         product.lastModifier = req.body.lastModifier;
         await product.save();

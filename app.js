@@ -5,6 +5,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+// Routes
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var rolesRouter = require('./routes/roles');
@@ -12,6 +13,7 @@ var brandsRouter = require('./routes/brands');
 var productsRouter = require('./routes/products');
 var customersRouter = require('./routes/customers');
 var meetingsRouter = require('./routes/meetings');
+var warehousesRouter = require('./routes/warehouses');
 
 var app = express();
 
@@ -30,5 +32,6 @@ app.use('/brands', brandsRouter);
 app.use('/products', productsRouter);
 app.use('/customers', customersRouter);
 app.use('/meetings', meetingsRouter);
+app.use('/warehouses', warehousesRouter);
 
 module.exports = app;
