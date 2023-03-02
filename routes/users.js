@@ -62,33 +62,10 @@ const bcrypt = require('bcrypt');
 
   // route post pour reset le password sur la page profil utilisateur
 
-  // router.post('/new-password', async (req, res) => {
-  //   try {
-  //     const { token, password } = req.body;
-  //     const user = await User.updateOne({ token:token} , {password : hashedPassword});
-      
-  //     if (!user) {
-  //       return res.json({result:false,error:'Impossible de réinitialiser le mot de passe.'});
-  //     }
-  
-  //     const hashedPassword = await bcrypt.hash(password, 10);
-  
-  //     user.password = hashedPassword;
-      
-  //     // update method
-  //     await user.updateOne({token : token}, {password : hashedPassword});
-
-  //     res.json({result:true, message:'Mot de passe réinitialisé avec succès !'});
-  //   } catch (error) {
-  //     console.error(error);
-  //     res.json('Une erreur s\'est produite lors de la réinitialisation du mot de passe.');
-  //   }
-  // });
-
 router.post('/switch-password', async (req,res) => {
   const hashedPassword = await bcrypt.hash(req.body.password, 10);
   try {
-    const user = User.findOne({token : req.body.token});
+    const user = await User.findOne({token : req.body.token});
     if(user){
       console.log(user)
       await User.updateOne({token : req.body.token} , {password : hashedPassword})
