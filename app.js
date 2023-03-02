@@ -11,7 +11,7 @@ var rolesRouter = require('./routes/roles');
 var brandsRouter = require('./routes/brands');
 var productsRouter = require('./routes/products');
 var customersRouter = require('./routes/customers');
-var mettingsRouter = require('./routes/mettings');
+var meetingsRouter = require('./routes/meetings');
 
 var app = express();
 
@@ -29,6 +29,6 @@ app.use('/roles', rolesRouter);
 app.use('/brands', brandsRouter);
 app.use('/products', productsRouter);
 app.use('/customers', customersRouter);
-app.use('/mettings', mettingsRouter);
+app.use('/meetings', meetingsRouter);
 
 module.exports = app;
