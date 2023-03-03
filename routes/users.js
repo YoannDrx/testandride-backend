@@ -101,7 +101,8 @@ router.post("/signup", (req, res) => {
             });
             // Push dans la BDD
             newUser.save().then((newDoc) => {
-                res.json({ result: true, token: newDoc.token });
+                const {email, token, firstName, lastName, tels} = newDoc;
+                res.json({ result: true, email,token,firstName,lastName,tels });
             });
         } else {
             // User already exists in database
@@ -120,9 +121,16 @@ router.post("/signin", (req, res) => {
   User.findOne({ email: req.body.email }).then(data => {
     // CONDITION username existe BIEN
     if (data && bcrypt.compareSync(req.body.password, data.password)) {
-      res.json({ result: true, token: data.token });
+        const {token, email, firstName, lastName, tels} = data;
+
+      res.json({ result: true, token, email, firstName,lastName,tels });
+
+    } else if (data && !bcrypt.compareSync(req.body.password, data.password)) {
+
+      res.json({ result: false, error: 'Mot de passe erroné' });
+
     } else {
-      res.json({ result: false, error: 'Email introuvable ou mot de passe erroné' });
+      res.json({ result: false, error: 'Email introuvable, inscrivez-vous d\'abord' })
     }
   });
   })

@@ -29,6 +29,8 @@ const meetingSchema = mongoose.Schema({
     type:String,
     date:Date,
     codeRDV:String,
+    googleCalendarId:String,
+    googleEventId:String,
     created:{type:Date,default:new Date()},
     lastModified:{type:Date,default:new Date()},
     author:{type: mongoose.Schema.Types.ObjectId, ref: 'users'},
