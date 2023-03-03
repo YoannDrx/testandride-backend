@@ -14,6 +14,7 @@ var productsRouter = require('./routes/products');
 var customersRouter = require('./routes/customers');
 var meetingsRouter = require('./routes/meetings');
 var warehousesRouter = require('./routes/warehouses');
+var airtableRouter = require('./routes/airtable');
 
 var app = express();
 
@@ -33,5 +34,6 @@ app.use('/products', productsRouter);
 app.use('/customers', customersRouter);
 app.use('/meetings', meetingsRouter);
 app.use('/warehouses', warehousesRouter);
+app.use('/airtable', airtableRouter);
 
 module.exports = app;
