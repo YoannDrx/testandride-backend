@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-const Airtable = require('airtable')
+
 const personnalAccessToken = process.env.PERSONNAL_ACCESS_TOKEN;
 const baseUrl = process.env.AIRTABLE_ENDPOINT_URL;
 const tableId = process.env.AIRTABLE_TABLE_ID;
