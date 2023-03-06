@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 require("../models/connection");
-const { getAirtable,updateRecord } = require("../modules/airTable");
+
 const fetch = require("node-fetch");
 
 const personnalAccessToken = process.env.PERSONNAL_ACCESS_TOKEN_PREPROD;

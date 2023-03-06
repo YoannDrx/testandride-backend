@@ -18,8 +18,8 @@ router.get("/", async (req, res) => {
 // Get one brand
 router.get("/:id", async (req, res) => {
     try {
-        const brand = await Brand.findById(req.params.id);
-        res.json(brand);
+        const brandFound = await Brand.findById(req.params.id);
+        res.json(brandFound);
     } catch (error) {
         res.json("Une erreur est survenue");
     }
@@ -28,13 +28,13 @@ router.get("/:id", async (req, res) => {
 // Create a new brand
 router.post("/create", async (req, res) => {
     try {
-        const brand = new Brand({
+        const brandFound = new Brand({
             name: req.body.name,
             created: new Date(),
             lastModified: new Date(),
         });
-        await brand.save();
-        res.json({ result: true, message: `Marque ${brand.name} créée` });
+        await brandFound.save();
+        res.json({ result: true, message: `Marque ${brandFound.name} créée` });
     } catch (error) {
         res.json("Une erreur est survenue");
     }
@@ -43,21 +43,15 @@ router.post("/create", async (req, res) => {
 // Update a brand
 router.put("/update/:id", async (req, res) => {
     try {
-        const brand = await Brand.findById(req.params.id);
-        brand.name = req.body.name;
-        brand.lastModified = new Date();
-        await brand.save();
-        res.json({ result: true, message: `Marque ${brand.name} modifiée` });
+        const brandFound = await Brand.findById(req.params.id);
+        brandFound.name = req.body.name;
+        brandFound.lastModified = new Date();
+        await brandFound.save();
+        res.json({ result: true, message: `Marque ${brandFound.name} modifiée` });
     } catch (error) {
         res.json("Une erreur est survenue");
     }
 });
-
-module.exports = router;
-var express = require("express");
-var router = express.Router();
-require("../models/connection");
-const Brand = require("../models/brands");
 
 // *** CRUD OPERATIONS ***
 
@@ -74,8 +68,8 @@ router.get("/", async (req, res) => {
 // Get one brand
 router.get("/:id", async (req, res) => {
     try {
-        const brand = await Brand.findById(req.params.id);
-        res.json(brand);
+        const brandFound = await Brand.findById(req.params.id);
+        res.json(brandFound);
     } catch (error) {
         res.json("Une erreur est survenue");
     }
@@ -84,11 +78,11 @@ router.get("/:id", async (req, res) => {
 // Create a new brand
 router.post("/create", async (req, res) => {
     try {
-        const brand = new Brand({
+        const brandFound = new Brand({
             name: req.body.name,
         });
-        await brand.save();
-        res.json({ result: true, message: `Marque ${brand.name} créée` });
+        await brandFound.save();
+        res.json({ result: true, message: `Marque ${brandFound.name} créée` });
     } catch (error) {
         res.json("Une erreur est survenue");
     }
@@ -97,11 +91,11 @@ router.post("/create", async (req, res) => {
 // Update a brand
 router.put("/update/:id", async (req, res) => {
     try {
-        const brand = await Brand.findById(req.params.id);
-        brand.name = req.body.name;
-        brand.lastModified = new Date();
-        await brand.save();
-        res.json({ result: true, message: `Marque ${brand.name} modifiée` });
+        const brandFound = await Brand.findById(req.params.id);
+        brandFound.name = req.body.name;
+        brandFound.lastModified = new Date();
+        await brandFound.save();
+        res.json({ result: true, message: `Marque ${brandFound.name} modifiée` });
     } catch (error) {
         res.json("Une erreur est survenue");
     }
