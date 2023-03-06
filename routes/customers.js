@@ -34,9 +34,7 @@ router.post("/create", async (req, res) => {
             tels:   req.body.tels,
             email:  req.body.email,
             address: req.body.address,
-            created: new Date(),
             author: req.body.author,
-            lastModified: new Date(),
         });
         await customer.save();
         res.json({ result: true, message: `Client ${customer.lastName} créé` });
