@@ -36,6 +36,6 @@ app.use('/products', productsRouter);
 app.use('/customers', customersRouter);
 app.use('/meetings', meetingsRouter);
 app.use('/warehouses', warehousesRouter);
-app.use('/api', apiRouter);
+
 
 module.exports = app;
