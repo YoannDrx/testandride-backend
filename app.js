@@ -17,6 +17,8 @@ var warehousesRouter = require('./routes/warehouses');
 var airtableRouter = require('./routes/airtable');
 
 var app = express();
+const fileUpload = require('express-fileupload');
+app.use(fileUpload());
 
 const cors = require ('cors');
 app.use(cors());
@@ -35,5 +37,6 @@ app.use('/customers', customersRouter);
 app.use('/meetings', meetingsRouter);
 app.use('/warehouses', warehousesRouter);
 app.use('/airtable', airtableRouter);
+
 
 module.exports = app;
