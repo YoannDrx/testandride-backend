@@ -30,8 +30,6 @@ router.post("/create", async (req, res) => {
     try {
         const brand = new Brand({
             name: req.body.name,
-            created: new Date(),
-            lastModified: new Date(),
         });
         await brand.save();
         res.json({ result: true, message: `Marque ${brand.name} créée` });

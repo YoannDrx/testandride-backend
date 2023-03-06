@@ -14,8 +14,11 @@ var productsRouter = require('./routes/products');
 var customersRouter = require('./routes/customers');
 var meetingsRouter = require('./routes/meetings');
 var warehousesRouter = require('./routes/warehouses');
+var apiRouter = require('./routes/api');
 
 var app = express();
+const fileUpload = require('express-fileupload');
+app.use(fileUpload());
 
 const cors = require ('cors');
 app.use(cors());
@@ -33,5 +36,6 @@ app.use('/products', productsRouter);
 app.use('/customers', customersRouter);
 app.use('/meetings', meetingsRouter);
 app.use('/warehouses', warehousesRouter);
+app.use('/api', apiRouter);
 
 module.exports = app;
