@@ -43,9 +43,10 @@ const tableAcessoriesId = process.env.AIRTABLE_PREPROD_ACCESSORIES_ID;
         const date = req.params.date;
 
         // les paramètres de requêtes construits avec le lien cité plus haut
-        const queryParams = `fields%5B%5D=Statut&fields%5B%5D=Link+to+Clients&fields%5B%5D=feedbacks_produit&fields%5B%5D=client_prenom_nom&fields%5B%5D=date_essai&fields%5B%5D=Mod%C3%A8le&fields%5B%5D=date_booking&fields%5B%5D=client_telephone&fields%5B%5D=client_adresse&fields%5B%5D=Rider_id+%F0%9F%91%AA&fields%5B%5D=Course_id&fields%5B%5D=Relance+SMS&fields%5B%5D=envoi_formulaire&fields%5B%5D=client_email&fields%5B%5D=Marques+%F0%9F%9B%8D%EF%B8%8F+(from+Mod%C3%A8le)&fields%5B%5D=Rider_email&fields%5B%5D=Fait+%E2%9C%85&fields%5B%5D=commentaires_client&fields%5B%5D=Programm%C3%A9+%F0%9F%94%9C&filterByFormula=IS_SAME(date_essai%2C+'${date}'%2C+'days')`;
+        const queryParams = `filterByFormula=IS_SAME(date_essai%2C+'${date}'%2C+'days')&sort%5B0%5D%5Bfield%5D=date_essai&sort%5B0%5D%5Bdirection%5D=asc`;
 
         console.log('route airtable');
+        console.log('fetch url',`${baseUrl}/${baseId}/${tableCoursesId}?${queryParams}`);
         const response = await fetch(`${baseUrl}/${baseId}/${tableCoursesId}?${queryParams}`,{
             method:"GET",
             headers:{
@@ -60,7 +61,28 @@ const tableAcessoriesId = process.env.AIRTABLE_PREPROD_ACCESSORIES_ID;
             res.json({result:false,data})
         }
     })
+    // get one model from base vélos
+    router.get('/bike/:id',async (req,res)=>{
 
+        const bikeId = req.params.id
+       
+       
+        console.log('route airtable');
+        console.log('fetch url',`${baseUrl}/${baseId}/${tableBikesId}/${bikeId}`);
+        const response = await fetch(`${baseUrl}/${baseId}/${tableBikesId}/${bikeId}`,{
+            method:"GET",
+            headers:{
+                "Content-Type":"application/json",
+                Authorization:"Bearer " + personnalAccessToken
+            },
+        });
+        const data = await response.json();
+        if (data){
+            res.json({result:true,data})
+        } else {
+            res.json({result:false,data})
+        }
+    })
 
     // Update one record from Courses from airtable with record ID
     router.post('/:recordId', async (req,res)=>{
