@@ -42,11 +42,12 @@ const tableAcessoriesId = process.env.AIRTABLE_PREPROD_ACCESSORIES_ID;
         // la date doit etre au format YYYY-MM-DD ex : http://localhost:3000/airtable/courses/2023-02-08
         const date = req.params.date;
 
-        // les paramètres de requêtes construits avec le lien cité plus haut
+        // les paramètres de requêtes construits avec celien : https://codepen.io/airtable/full/MeXqOg
         const queryParams = `filterByFormula=IS_SAME(date_essai%2C+'${date}'%2C+'days')&sort%5B0%5D%5Bfield%5D=date_essai&sort%5B0%5D%5Bdirection%5D=asc`;
 
-        console.log('route airtable');
+       
         console.log('fetch url',`${baseUrl}/${baseId}/${tableCoursesId}?${queryParams}`);
+
         const response = await fetch(`${baseUrl}/${baseId}/${tableCoursesId}?${queryParams}`,{
             method:"GET",
             headers:{
@@ -61,13 +62,15 @@ const tableAcessoriesId = process.env.AIRTABLE_PREPROD_ACCESSORIES_ID;
             res.json({result:false,data})
         }
     })
+
+
     // get one model from base vélos
     router.get('/bike/:id',async (req,res)=>{
 
         const bikeId = req.params.id
        
        
-        console.log('route airtable');
+      
         console.log('fetch url',`${baseUrl}/${baseId}/${tableBikesId}/${bikeId}`);
         const response = await fetch(`${baseUrl}/${baseId}/${tableBikesId}/${bikeId}`,{
             method:"GET",
@@ -85,8 +88,12 @@ const tableAcessoriesId = process.env.AIRTABLE_PREPROD_ACCESSORIES_ID;
     })
 
     // Update one record from Courses from airtable with record ID
-    router.post('/:recordId', async (req,res)=>{
+    router.post('/courses/:recordId', async (req,res)=>{
+
         console.log('route record airtable');
+
+        // pour update un record il faut envoyer un objet {fields:{..update}} au record
+
         const update = {...req.body}
         const response = await fetch(`${baseUrl}/${baseId}/${tableCoursesId}/${req.params.recordId}`,{
             method:"PATCH",
