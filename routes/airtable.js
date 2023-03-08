@@ -111,10 +111,10 @@ const tableAcessoriesId = process.env.AIRTABLE_PREPROD_ACCESSORIES_ID;
     // Update one record from Courses from airtable with record ID
     router.post('/courses/:recordId', async (req,res)=>{
 
-        console.log('route post update record airtable');
+       
 
         // pour update un record il faut envoyer un objet {fields:{..update}} au record
-        console.log('fetch post',`${baseUrl}/${baseId}/${tableCoursesId}/${req.params.recordId}`);
+      
         const update = {...req.body}
         const response = await fetch(`${baseUrl}/${baseId}/${tableCoursesId}/${req.params.recordId}`,{
             method:"PATCH",
