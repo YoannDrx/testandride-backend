@@ -68,9 +68,7 @@ const tableAcessoriesId = process.env.AIRTABLE_PREPROD_ACCESSORIES_ID;
     router.get('/bike/:id',async (req,res)=>{
 
         const bikeId = req.params.id
-       
-       
-      
+             
         console.log('fetch url',`${baseUrl}/${baseId}/${tableBikesId}/${bikeId}`);
         const response = await fetch(`${baseUrl}/${baseId}/${tableBikesId}/${bikeId}`,{
             method:"GET",
@@ -81,7 +79,30 @@ const tableAcessoriesId = process.env.AIRTABLE_PREPROD_ACCESSORIES_ID;
         });
         const data = await response.json();
         if (data){
-            res.json({result:true,data})
+            const {id, createdTime, fields} = data;
+            const dataFormated = {
+                id:id,
+                createdTime:createdTime,
+                fields:{
+                    nom_marque:fields["nom_marque_pretty"],
+                    nom_velo:fields["nom_velo_pretty"],
+                    catalogue:fields["Catalogue"],
+                    calendlyLink : fields["Booking_Calendly"],
+                    pitchLink:fields["Pitch"],
+                    dateReception:fields["Date réception"],
+                    stock:fields["En stock ?"],
+                    packshot:fields["Packshot"],
+                    caracteristics : {
+                        poids:fields["Poids (kg)"],
+                        position:fields["Position du cycliste"],
+                        pliant:fields["Pliant"],
+                        cadre:fields["Cadre"],
+                        siegeEnfant:fields["Ajout_siège_enfant"],
+                        batterieAmovible:fields["Batterie_amovible"],
+                    },
+                }
+            }
+            res.json({result:true,data:dataFormated})
         } else {
             res.json({result:false,data})
         }
